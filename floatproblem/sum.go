@@ -27,7 +27,8 @@ func TryFloat64(pennies Cents) {
 		sumFloatRounded := int(math.Round(sumFloat * 100))
 		diff := sumFloatRounded - int(sumPennies)
 		if diff != 0 {
-			fmt.Printf("Sum of Pennies = %s\nSum of float64 = %s\nAt iteration %d of adding %d pennies.\n\n",
+			fmt.Printf(
+				"Sum of Pennies = %s\nSum of float64 = %s\nAt iteration %d of adding %d pennies.\n\n",
 				sumPennies.FmtComma(), FmtIntComma(sumFloatRounded), x, pennies)
 			if x < minIterationsFloat64 {
 				minIterationsFloat64 = x
@@ -50,9 +51,7 @@ func (amt Cents) Fmt() string {
 
 func (amt Cents) FmtComma() string {
 	out := amt.Fmt()
-	if (amt == 0) ||
-		(amt > 0 && amt < 100000) ||
-		(amt < 0 && amt > -100000) {
+	if (amt >= 0 && amt < 100000) || (amt <= 0 && amt > -100000) {
 		return out
 	}
 	centsOnly := out[len(out)-3:]   //save the pennies
@@ -89,9 +88,7 @@ func FmtFloat64(amt float64) string {
 
 func FmtFloat64Comma(amt float64) string {
 	out := FmtFloat64(amt)
-	if (amt == 0) ||
-		(amt > 0 && amt < 100000) ||
-		(amt < 0 && amt > -100000) {
+	if (amt >= 0 && amt < 100000) || (amt <= 0 && amt > -100000) {
 		return out
 	}
 	centsOnly := out[len(out)-3:]   //save the pennies
@@ -133,11 +130,10 @@ func FmtInt(amt int) string {
 	return out[:sz-2] + "." + out[sz-2:]
 }
 
+// Format an integer amount with commas
 func FmtIntComma(amt int) string {
 	out := FmtInt(amt)
-	if (amt == 0) ||
-		(amt > 0 && amt < 100000) ||
-		(amt < 0 && amt > -100000) {
+	if (amt >= 0 && amt < 100000) || (amt <= 0 && amt > -100000) {
 		return out
 	}
 	centsOnly := out[len(out)-3:]   //save the pennies
